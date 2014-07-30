@@ -104,4 +104,4 @@ void GoCodePlugin::writeConfig(KConfig *config)
     Q_UNUSED(config);
 }
 
-#include "gocode.moc"
+#include "gocodeplugin.moc"

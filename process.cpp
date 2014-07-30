@@ -1,5 +1,4 @@
 #include "process.h"
-
 #include <QProcess>
 
 Process::Process()
@@ -16,27 +15,31 @@ Process::~Process()
 
 QVector<TypeInfo> Process::getCompletions(const QByteArray& ustart, const QByteArray& uend)
 {
-    QProcess p;
     QStringList args;
     args << "-f=csv" << "autocomplete" << QString("c") + QString::number(ustart.length());
+
+    QProcess p;
     p.start("gocode", args);
-    p.waitForStarted(TIMEOUT);
+
+    if(!p.waitForStarted(TIMEOUT))
+        return QVector<TypeInfo>();
+
     p.write(ustart);
     p.write(uend);
     p.closeWriteChannel();
 
+    if(!p.waitForFinished(TIMEOUT))
+        return QVector<TypeInfo>();
+
+    QStringList lines = QString(p.readAllStandardOutput()).split("\n");
     QVector<TypeInfo> out;
+    out.reserve(lines.size());
 
-    if(p.waitForFinished(TIMEOUT))
-    {
-        QStringList lines = QString(p.readAllStandardOutput()).split("\n");
-        out.reserve(lines.size());
-        TypeInfo info;
+    TypeInfo info;
 
-        for(int i = 0, e = lines.size(); i < e; ++i)
-            if(info.parseString(lines[i]))
-                out.push_back(info);
-    }
+    for(int i = 0, e = lines.size(); i < e; ++i)
+        if(info.parseString(lines[i]))
+            out.push_back(info);
 
     return out;
 }
@@ -57,15 +60,20 @@ bool TypeInfo::parseString(const QString &str)
 // should be better / faster than creating and initializing a QMap
 ProcClass TypeInfo::parseClass(const QString &s)
 {
-    if(s == "func") return FUNC;
+    if(s == "func")
+        return FUNC;
 
-    if(s == "var") return VAR;
+    if(s == "var")
+        return VAR;
 
-    if(s == "const") return CONST;
+    if(s == "const")
+        return CONST;
 
-    if(s == "type") return TYPE;
+    if(s == "type")
+        return TYPE;
 
-    if(s == "package") return PACKAGE;
+    if(s == "package")
+        return PACKAGE;
 
     return PANIC;
 }

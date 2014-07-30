@@ -11,6 +11,16 @@ Dependencies
 ------------
 
 KTextEditor libraries and [gocode][2].
+Uses CMake as build tool.
+
+Install
+-------
+
+    $ mkdir build
+    $ cd build
+    $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
+    $ make
+    # make install
 
 License
 -------
