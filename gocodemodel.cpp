@@ -103,4 +103,23 @@ QIcon GoCodeModel::getIcon(ProcClass c) const
     }
 }
 
+void GoCodeModel::executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word, const QModelIndex &index) const
+{
+    TypeInfo info = m_data[index.row()];
+    KTextEditor::View* view = document->activeView();
+    document->replaceText(word, info.name_);
+
+    if (info.class_ == FUNC)
+    {
+        // extract the function parameters
+        QRegExp rx("func(\\([^\\)]*\\)).*");
+        if(rx.indexIn(info.type_) != -1)
+        {
+            KTextEditor::Cursor cursor = view->cursorPosition();
+            const QString parameters = rx.cap(1);
+            document->insertText(cursor, parameters);
+        }
+    }
+}
+
 #include "gocodemodel.moc"

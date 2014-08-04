@@ -1,8 +1,7 @@
-#ifndef GOCODE_H
-#define GOCODE_H
+#ifndef GOCODEPLUGIN_H
+#define GOCODEPLUGIN_H
 
 #include "process.h"
-
 #include <ktexteditor/plugin.h>
 #include <kxmlguiclient.h>
 
@@ -44,4 +43,4 @@ private:
 
 K_PLUGIN_FACTORY_DECLARATION(GoCodePluginFactory)
 
-#endif
+#endif // GOCODEPLUGIN_H
