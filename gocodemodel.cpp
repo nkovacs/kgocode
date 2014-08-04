@@ -53,9 +53,8 @@ QVariant GoCodeModel::data(const QModelIndex& index, int role) const
                     return info.name_;
 
                 case Postfix:
-                    return QString(" ") + info.type_;
+                    return info.type_;
 
-                // falltrough
                 default:
                     return QVariant();
             }
@@ -111,14 +110,9 @@ void GoCodeModel::executeCompletionItem2(KTextEditor::Document *document, const 
 
     if (info.class_ == FUNC)
     {
-        // extract the function parameters
-        QRegExp rx("func(\\([^\\)]*\\)).*");
-        if(rx.indexIn(info.type_) != -1)
-        {
-            KTextEditor::Cursor cursor = view->cursorPosition();
-            const QString parameters = rx.cap(1);
-            document->insertText(cursor, parameters);
-        }
+        KTextEditor::Cursor cursor = view->cursorPosition();
+        document->insertText(cursor, "()");
+        view->setCursorPosition(KTextEditor::Cursor(cursor.line(), cursor.column()+1));
     }
 }
 
