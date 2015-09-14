@@ -23,7 +23,13 @@ void GoCodeModel::completionInvoked(KTextEditor::View* view, const KTextEditor::
     KTextEditor::Range r_start(KTextEditor::Cursor::start(), range.end());
     KTextEditor::Range r_end(range.end(), document->documentEnd());
 
+    QUrl url = document->url();
+    QString path("");
+    if (url.isLocalFile()) {
+        path = url.toLocalFile();
+    }
     m_data = m_process->getCompletions(
+                 path,
                  document->text(r_start).toUtf8(),
                  document->text(r_end).toUtf8()
              );

@@ -33,7 +33,7 @@ class Process
 public:
     Process();
     virtual ~Process();
-    QVector<TypeInfo> getCompletions(const QByteArray& ustart, const QByteArray &uend);
+    QVector<TypeInfo> getCompletions(const QString &filename, const QByteArray& ustart, const QByteArray &uend);
 };
 
 #endif // PROCESS_H

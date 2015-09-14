@@ -13,10 +13,10 @@ Process::~Process()
     p.waitForFinished(TIMEOUT);
 }
 
-QVector<TypeInfo> Process::getCompletions(const QByteArray& ustart, const QByteArray& uend)
+QVector<TypeInfo> Process::getCompletions(const QString &filename, const QByteArray& ustart, const QByteArray& uend)
 {
     QStringList args;
-    args << "-f=csv" << "autocomplete" << QString("c") + QString::number(ustart.length());
+    args << "-f=csv" << "autocomplete" << filename << QString("c") + QString::number(ustart.length());
 
     QProcess p;
     p.start("gocode", args);
