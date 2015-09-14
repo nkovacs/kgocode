@@ -109,6 +109,20 @@ QIcon GoCodeModel::getIcon(ProcClass c) const
     }
 }
 
+void GoCodeModel::executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range &word, const QModelIndex &index) const
+{
+    TypeInfo info = m_data[index.row()];
+    KTextEditor::Document *document = view->document();
+    document->replaceText(word, info.name_);
+
+    if (info.class_ == FUNC)
+    {
+        KTextEditor::Cursor cursor = view->cursorPosition();
+        document->insertText(cursor, "()");
+        view->setCursorPosition(KTextEditor::Cursor(cursor.line(), cursor.column()+1));
+    }
+}
+
 /*
 void GoCodeModel::executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word, const QModelIndex &index) const
 {

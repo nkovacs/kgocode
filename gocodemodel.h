@@ -23,6 +23,8 @@ public:
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     /*void executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word,
                                 const QModelIndex &index) const;*/
+    void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range &word,
+                                const QModelIndex &index) const;
 
 private:
     QIcon getIcon(ProcClass c) const;
