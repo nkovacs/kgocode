@@ -4,14 +4,14 @@
 #include "process.h"
 #include <ktexteditor/codecompletionmodel.h>
 #include <ktexteditor/codecompletionmodelcontrollerinterface.h>
-#include <kicon.h>
+//#include <kicon.h>
 
 class GoCodeModel:
-    public KTextEditor::CodeCompletionModel2,
-    public KTextEditor::CodeCompletionModelControllerInterface3
+    public KTextEditor::CodeCompletionModel,
+    public KTextEditor::CodeCompletionModelControllerInterface
 {
     Q_OBJECT
-    Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface3)
+    Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
 
 public:
     GoCodeModel(QObject* parent, Process* process);
@@ -21,8 +21,8 @@ public:
                                    InvocationType invocationType);
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    void executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word,
-                                const QModelIndex &index) const;
+    /*void executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word,
+                                const QModelIndex &index) const;*/
 
 private:
     QIcon getIcon(ProcClass c) const;

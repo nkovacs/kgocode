@@ -2,9 +2,10 @@
 
 #include <ktexteditor/view.h>
 #include <ktexteditor/document.h>
+#include <QIcon>
 
 GoCodeModel::GoCodeModel(QObject* parent, Process *process):
-    CodeCompletionModel2(parent), m_process(process)
+    CodeCompletionModel(parent), m_process(process)
 {
 }
 
@@ -77,7 +78,7 @@ QVariant GoCodeModel::data(const QModelIndex& index, int role) const
     }
 }
 
-#define RETURN_CACHED_ICON(name) {static QIcon icon(KIcon(name).pixmap(QSize(16, 16))); return icon;}
+#define RETURN_CACHED_ICON(name) {static QIcon icon(QIcon::fromTheme(name).pixmap(QSize(16, 16))); return icon;}
 QIcon GoCodeModel::getIcon(ProcClass c) const
 {
     switch(c)
@@ -98,10 +99,11 @@ QIcon GoCodeModel::getIcon(ProcClass c) const
             RETURN_CACHED_ICON("code-field");
 
         default     :
-            return KIcon();
+            return QIcon();
     }
 }
 
+/*
 void GoCodeModel::executeCompletionItem2(KTextEditor::Document *document, const KTextEditor::Range &word, const QModelIndex &index) const
 {
     TypeInfo info = m_data[index.row()];
@@ -115,5 +117,6 @@ void GoCodeModel::executeCompletionItem2(KTextEditor::Document *document, const 
         view->setCursorPosition(KTextEditor::Cursor(cursor.line(), cursor.column()+1));
     }
 }
+*/
 
 #include "gocodemodel.moc"
